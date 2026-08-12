@@ -31,4 +31,4 @@ go.work.sum
 # .idea/
 # .vscode/
 
-config\local.yaml
+config/local.yaml

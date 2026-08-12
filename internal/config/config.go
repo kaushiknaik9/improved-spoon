@@ -15,11 +15,18 @@ type HttpServer struct {
 	IdleTimeout time.Duration `yaml:"idle_timeout"`
 }
 
+type Storage struct {
+	Path     string `yaml:"path"`
+	Provider string `yaml:"provider"`
+	Url      string `yaml:"url"`
+}
+
 type Config struct {
 	AppName     string `yaml:"app_name"`
 	Env         string `yaml:"env"`
 	LoggerLevel string `yaml:"logger_level"`
 	HttpServer  `yaml:"http_server"`
+	Storage     `yaml:"storage"`
 }
 
 func LoadConfig() *Config {
@@ -42,10 +49,10 @@ func LoadConfig() *Config {
 		log.Fatalf("config file doesn't exist at path: %v", err)
 	}
 
-	var cfg *Config
-	err = cleanenv.ReadConfig(configPath, cfg)
+	var cfg Config
+	err = cleanenv.ReadConfig(configPath, &cfg)
 	if err != nil {
 		log.Fatalf("config file not accroding to requirements")
 	}
-	return cfg
+	return &cfg
 }
